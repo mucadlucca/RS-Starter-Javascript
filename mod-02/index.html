@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">    
+  </div>
+  
+  <script>
+    // Exercício 1
+    //Crie um botão que ao ser clicado cria um novo elemento em tela com a forma de um quadrado
+    //vermelho com 100px de altura e largura. Sempre que o botão for clicado um novo quadrado deve
+    //aparecer na tela.
+
+    var container = document.querySelector('div');
+
+    var btnElement = document.createElement('button');
+    var txtButton = document.createTextNode('Gerar Quadrado');    
+
+    container.appendChild(btnElement);
+    btnElement.appendChild(txtButton);
+
+    btnElement.onclick = function() {
+      var redSquare = document.createElement('div')
+      redSquare.setAttribute('class', 'box') 
+      redSquare.setAttribute('onmouseover', 'changeBackgroundColor()')           
+      container.appendChild(redSquare);
+
+      redSquare.style.width = '100px'
+      redSquare.style.height = '100px'
+      redSquare.style.backgroundColor = '#f33';
+
+      redSquare.onmouseover = function() {                // Exercício 2
+      redSquare.style.backgroundColor = getRandomColor()  // Exercício 2       
+      }
+    } 
+
+    //====================================================================
+    // Exercício 2
+    //Utilizando o resultado do primeiro desafio, toda vez que o usuário passar o mouse por cima de
+    //algum quadrado troque sua cor para uma cor aleatória gerada pela função abaixo:
+    
+    function getRandomColor() {
+      var letters = "0123456789ABCDEF";
+      var color = "#";
+      for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+
+      return color;
+    }    
+
+    var newColor = getRandomColor();
+    //==================================================================== 
+    
+    // Exercicio 3
+    //A partir do seguinte vetor:    
+    //Preencha uma lista (<ul>) no HTML com os itens da seguinte forma:
+
+    var nomes = ["Diego", "Gabriel", "Lucas"];
+    //var numNomes = nomes.length
+
+    var ulElement = document.createElement('ul')
+    container.appendChild(ulElement)
+    
+    //for (var i=0; i < numNomes; i++) {
+    for (nome of nomes) {
+      var liElement = document.createElement('li')
+      var liText = document.createTextNode(nome)
+      //var liText = document.createTextNode(nomes[i])
+
+      ulElement.appendChild(liElement)
+      liElement.appendChild(liText)
+    }
+    //====================================================================
+
+    // Exercicio 4
+    //Seguindo o resultado do exercício anterior adicione um input em tela e um botão como a seguir:
+    //   <input type="text" name="nome">
+    //   <button onClick="adicionar()">Adicionar</button>
+    //Ao clicar no botão, a função adicionar() deve ser disparada adicionando um novo item a lista de
+    //nomes baseado no nome preenchido no input e renderizando o novo item em tela juntos aos
+    //demais itens anteriores. Além disso, o conteúdo do input deve ser apagado após o clique.  
+
+    var inputElement = document.createElement('input')
+    var btnAdiconar = document.createElement('button')
+    var btnAdicionarTxt = document.createTextNode('Adicionar')
+
+    container.appendChild(inputElement)
+    container.appendChild(btnAdiconar)
+    btnAdiconar.appendChild(btnAdicionarTxt)
+
+    btnAdiconar.onclick = function() {
+      var inputValue = document.querySelector('input').value
+
+      if (!inputValue) {
+
+        alert('Favor digitar algo na caixa de texto')
+
+      } else {  
+
+        var newLiElement = document.createElement('li')
+        var newLiText = document.createTextNode(inputValue)        
+
+        ulElement.appendChild(newLiElement)
+        newLiElement.appendChild(newLiText)
+
+        document.querySelector('input').value = ''
+      }  
+    }
+  </script>
+</body>
+</html>
