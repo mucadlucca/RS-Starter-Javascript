@@ -7,6 +7,14 @@ var todos = JSON.parse(localStorage.getItem('list_todos')) || [];
 function renderTodos() {
   listElement.innerHTML = '';
 
+  var todoBox = document.querySelector('#app .todos');
+
+  if (todos.length !== 0 ) {
+    todoBox.classList.add('newTodo')
+  } else {
+    todoBox.classList.remove('newTodo')
+  }
+
   for (todo of todos) {
     var todoElement = document.createElement('li');
     var todoText = document.createTextNode(todo);
@@ -25,7 +33,7 @@ function renderTodos() {
     todoElement.appendChild(todoText);
     todoElement.appendChild(linkElement);
 
-    listElement.appendChild(todoElement)
+    listElement.appendChild(todoElement)    
   }
 }
 
@@ -35,6 +43,7 @@ function addTodo() {
   var todoText = inputElement.value; 
 
   if(!todoText) {
+    alert('Digite um texto no input')
     return
   }
 
@@ -49,7 +58,7 @@ buttonElement.onclick = addTodo;
 function deleteTodo(pos) {
   todos.splice(pos, 1);
   renderTodos();
-  saveToStorage();
+  saveToStorage(); 
 }
 
 function saveToStorage() {
