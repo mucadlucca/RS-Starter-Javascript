@@ -38,12 +38,13 @@ function checaIdade(idade) {
 //URL de exemplo: https://api.github.com/users/diego3g/repos
 //Basta alterar "diego3g" pelo nome do usuário.
 
-var container = document.querySelector('#container');
+var main = document.querySelector('#main');
 var inputElement = document.querySelector('input');
 var btnElement = document.querySelector('button');
 
 btnElement.onclick = function() {   
   renderListElement();
+
   var githubUser = inputElement.value; 
 
   if (!githubUser) {
@@ -63,27 +64,32 @@ btnElement.onclick = function() {
 }
 
 function renderListElement() {
-  var listElement = document.querySelector('#container ul');
+  var listElement = document.querySelector('#main ul');
 
   if (!listElement) {
     var listElement = document.createElement('ul');
-    container.appendChild(listElement);
+    main.appendChild(listElement);
   } else {
     listElement.innerHTML = '';
   }
 }
 
 function renderRepositories(repos) {
-  var listElement = document.querySelector('#container ul');
+  var listElement = document.querySelector('#main ul');
   listElement.innerHTML = '';  
+
+  listElement.classList.add('repos-list');
+  listElement.classList.remove('error-list');
 
   for (repo of repos) {      
     var repoElement = document.createElement('li');
     var repoName = document.createTextNode(repo.name);
 
     repoElement.appendChild(repoName);
-    repoElement.classList.add('repositorios');
+    repoElement.classList.add('repos');
     listElement.appendChild(repoElement);
+
+    coloringList()    
   } 
 }
 
@@ -97,7 +103,7 @@ function renderRepositories(repos) {
 //Dica: Quando o usuário não existe, a requisição irá cair no .catch com código de erro 404
 
 function renderLoading() {  
-  var listElement = document.querySelector('#container ul');
+  var listElement = document.querySelector('#main ul');
   listElement.innerHTML = '';
 
   var txtLoading = document.createTextNode('Carregando...');
@@ -109,16 +115,33 @@ function renderLoading() {
 }
 
 function renderError() { 
-  var listElement = document.querySelector('#container ul');
-  listElement.innerHTML = '';
+  var listElement = document.querySelector('#main ul');
+  listElement.innerHTML = '';  
 
+  listElement.classList.remove('repos-list');
+  listElement.classList.add('error-list');
+ 
   var txtError = document.createTextNode('Erro! Usuário não encontrado');
   var errorElement = document.createElement('li'); 
-
-  errorElement.style.color = '#F00';
-  
+    
   errorElement.appendChild(txtError);
   errorElement.classList.add('error');
   listElement.appendChild(errorElement);
 }
- 
+
+function coloringList() {
+  $('.repos').each(function() {
+    $(this).css('color',randomColor());
+  });  
+}
+
+var lastPick;
+var random;
+
+function randomColor() {
+  var color = ["#8be9fd","#ffb86c","#ff79c6","#bd93f9","#f1fa8c"];
+  random = color[Math.floor(Math.random() * color.length)];
+  random === lastPick ? randomColor() : random;
+  lastPick = random;
+  return random;
+}
